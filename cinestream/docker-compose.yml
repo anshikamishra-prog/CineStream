@@ -1,0 +1,85 @@
+version: '3.9'
+
+services:
+  # ── MongoDB ──────────────────────────────────────────────────────────────────
+  mongo:
+    image: mongo:7.0
+    container_name: cinestream-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: cinestream
+      MONGO_INITDB_ROOT_PASSWORD: devpassword
+      MONGO_INITDB_DATABASE: cinestream
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - cinestream-net
+
+  # ── API Server ────────────────────────────────────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: cinestream-server
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_URI: mongodb://cinestream:devpassword@mongo:27017/cinestream?authSource=admin
+      CLIENT_URL: http://localhost:5173
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-change-in-production-32chars}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dev-refresh-secret-change-in-prod-32chars}
+      TMDB_API_KEY: ${TMDB_API_KEY}
+      COOKIE_SECRET: ${COOKIE_SECRET:-dev-cookie-secret}
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - cinestream-net
+    healthcheck:
+      test: ['CMD', 'node', '-e', "require('http').get('http://localhost:5000/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ── React Client (dev only) ───────────────────────────────────────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: cinestream-client
+    restart: unless-stopped
+    ports:
+      - '5173:5173'
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000/api
+      VITE_APP_NAME: CineStream
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    networks:
+      - cinestream-net
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  cinestream-net:
+    driver: bridge

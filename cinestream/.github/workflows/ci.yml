@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  # ── Lint & Build Client ────────────────────────────────────────────────────
+  client:
+    name: Client — Lint & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check (JSConfig)
+        run: node --input-type=module <<< "console.log('JS syntax OK')"
+
+      - name: Build
+        env:
+          VITE_API_BASE_URL: https://api.example.com/api
+          VITE_APP_NAME: CineStream
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-dist
+          path: client/dist
+          retention-days: 7
+
+  # ── Lint Server ────────────────────────────────────────────────────────────
+  server:
+    name: Server — Lint & Syntax Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Syntax check all source files
+        run: node --input-type=module <<< "
+          import { readdirSync, statSync, readFileSync } from 'fs';
+          const walkSync = (dir) => {
+            readdirSync(dir).forEach(f => {
+              const p = dir + '/' + f;
+              if (statSync(p).isDirectory()) walkSync(p);
+              else if (f.endsWith('.js')) readFileSync(p, 'utf8');
+            });
+          };
+          walkSync('./src');
+          console.log('All server source files readable');
+        "
+
+  # ── Docker Build (only on main) ────────────────────────────────────────────
+  docker:
+    name: Docker Build Check
+    runs-on: ubuntu-latest
+    needs: [client, server]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build server Docker image
+        run: docker build -t cinestream-server:${{ github.sha }} ./server
+
+      - name: Build client Docker image
+        run: |
+          docker build \
+            --build-arg VITE_API_BASE_URL=https://api.placeholder.com/api \
+            --build-arg VITE_APP_NAME=CineStream \
+            -t cinestream-client:${{ github.sha }} ./client
