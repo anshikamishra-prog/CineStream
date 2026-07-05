@@ -2,89 +2,77 @@
 
 # 🎬 CineStream
 
-### Production-Grade Netflix-Inspired Streaming Platform
+### A Production-Grade Netflix-Inspired Streaming Platform
 
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)](https://mongodb.com/atlas)
-[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express.js-4-000000?style=for-the-badge&logo=express&logoColor=white" />
+</p>
 
-[Live Demo](#) · [Report Bug](#) · [Request Feature](#)
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Production Ready-success?style=for-the-badge" />
+</p>
+
+<br />
+
+> A full-stack, production-quality streaming platform built with the MERN stack.  
+> Browse movies, manage profiles, save watchlists, track history — all powered by real TMDB data.
+
+<br />
+
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [Project Structure](#-project-structure) • [API Reference](#-api-reference) • [Deployment](#-deployment)
 
 </div>
 
 ---
 
-## 📖 Overview
-
-CineStream is a full-stack, production-quality streaming platform inspired by Netflix, built as a portfolio-grade project demonstrating enterprise software engineering practices. It integrates with The Movie Database (TMDB) API to surface real movie and TV show data with a cinematic, responsive UI.
-
 ## ✨ Features
 
-### User Experience
-- 🎥 **Hero Banner** — Auto-rotating cinematic hero with real TMDB backdrops
-- 🔍 **Live Search** — Debounced multi-type search across movies, TV shows, and people
-- 📺 **Trailer Player** — Full-screen video playback with custom controls overlay
-- 🎭 **Rich Detail Pages** — Cast, genres, ratings, recommendations, and trailer modal
-- 📱 **Fully Responsive** — Mobile-first design, flawless across all screen sizes
+### 🎥 Content & Browsing
+- **Hero Banner** — Auto-rotating cinematic hero with real TMDB backdrops and smooth crossfade
+- **Trending, Popular, Top Rated** — Dedicated rows for every content category
+- **Genre Browsing** — Filter movies and TV shows by genre with URL-driven state
+- **Movie & TV Pages** — Paginated grids with category tabs, genre chips, and sort controls
+- **Rich Detail Pages** — Cast, ratings, budget, runtime, production info, genre tags
+- **Trailer Player** — Full-screen YouTube embed with custom controls overlay
+- **Recommendations** — "More Like This" section on every detail page
 
-### Content
-- 🎬 **Movies** — Popular, top-rated, now playing, upcoming — paginated grids
-- 📡 **TV Shows** — Popular, top-rated, and on-air series
-- 🔥 **Trending** — Daily and weekly trending content from TMDB
-- 🌐 **Genres** — Filter content by genre with TMDB discovery API
+### 🔍 Search
+- **Live Search** — Debounced multi-type search across movies, TV shows, and people
+- **Search History** — Recent searches saved to localStorage with one-click re-search
+- **Grid / List View** — Toggle between card grid and detailed list layout
+- **Type Filters** — Switch between All, Movies, and TV Shows
 
-### User Profiles
-- 👥 **Multiple Profiles** — Up to 5 profiles per account
-- 📋 **My List** — Save titles to a personal watchlist
-- ❤️ **Favorites** — Heart content for quick access
-- ⏱️ **Watch History** — Full history with progress tracking
-- ▶️ **Continue Watching** — Resume content mid-session with progress bar
+### 👤 User & Profiles
+- **Authentication** — Register, login, logout with JWT access + refresh token rotation
+- **Multiple Profiles** — Up to 5 profiles per account (like Netflix)
+- **Profile Management** — Create, edit, delete profiles with maturity ratings and kids mode
+- **My List** — Save titles to a personal watchlist with optimistic UI updates
+- **Favorites** — Heart any title for quick access
+- **Watch History** — Full history with progress tracking per title
+- **Continue Watching** — Resume content with animated progress bars
 
-### Authentication & Security
-- 🔐 **JWT Authentication** — Access token + HttpOnly refresh token rotation
-- 🔒 **bcrypt Password Hashing** — 12 salt rounds
-- 🛡️ **Helmet** — Secure HTTP headers
-- ⚡ **Rate Limiting** — Per-route request throttling
-- 🧹 **MongoDB Sanitization** — NoSQL injection prevention
-- 🌐 **CORS** — Strict origin policy
+### ⚡ Performance & UX
+- **Lazy Rendering** — Content rows only render when scrolled into view
+- **Loading Skeletons** — Shimmer placeholders for every loading state
+- **Hide-on-Scroll Navbar** — Navbar hides when scrolling down, reappears on scroll up
+- **Optimistic Updates** — My List and Favorites update instantly without waiting for the server
+- **Code Splitting** — Lazy-loaded pages with React Suspense
+- **Error Boundaries** — Isolated section errors never crash the whole app
 
----
-
-## 🏗️ Architecture
-
-```
-cinestream/
-├── client/                    # React + Vite frontend
-│   ├── src/
-│   │   ├── api/               # Axios instances and API service modules
-│   │   ├── components/
-│   │   │   ├── common/        # Shared, generic components
-│   │   │   ├── layout/        # Navbar, Footer, MainLayout, AuthLayout
-│   │   │   ├── media/         # HeroBanner, MediaCard, ContentRow, etc.
-│   │   │   └── ui/            # Design system primitives
-│   │   ├── contexts/          # AuthContext, ProfileContext (React Context API)
-│   │   ├── hooks/             # Custom hooks: useDebounce, useMediaQuery, etc.
-│   │   ├── pages/             # Route-level page components
-│   │   ├── routes/            # ProtectedRoute, PublicRoute
-│   │   ├── styles/            # globals.css with Tailwind layers
-│   │   └── utils/             # TMDB helpers, error utils, constants
-│   ├── tailwind.config.js     # Custom design tokens (brand colors, fonts, animations)
-│   └── vite.config.js         # Path aliases, build chunking, dev proxy
-│
-└── server/                    # Node.js + Express backend
-    ├── src/
-    │   ├── config/            # Database connection
-    │   ├── controllers/       # Route handlers (auth, media, search, profile)
-    │   ├── middleware/        # Auth, validation, rate limiting, error handling
-    │   ├── models/            # Mongoose schemas (User with embedded profiles)
-    │   ├── routes/            # Express route definitions
-    │   ├── services/          # TMDB API integration with in-memory caching
-    │   ├── utils/             # Logger, AppError, JWT, API response helpers
-    │   └── validators/        # express-validator chains
-    └── server.js              # App bootstrap with graceful shutdown
-```
+### 🛡️ Security
+- **JWT Auth** — Short-lived access tokens + long-lived HttpOnly cookie refresh tokens
+- **Token Rotation** — Refresh tokens rotate on every use
+- **bcrypt** — Password hashing with 12 salt rounds
+- **Helmet** — Secure HTTP headers
+- **Rate Limiting** — Per-route request throttling
+- **MongoDB Sanitization** — NoSQL injection prevention
 
 ---
 
@@ -95,18 +83,18 @@ cinestream/
 | **Frontend Framework** | React 18 + Vite 5 |
 | **Styling** | Tailwind CSS 3 with custom design system |
 | **Animations** | Framer Motion |
-| **State Management** | React Context API + Zustand (if needed) |
+| **Global State** | Zustand (UI preferences) + React Context (Auth, Profile) |
 | **Server State** | TanStack Query v5 |
 | **Forms** | React Hook Form |
 | **Routing** | React Router DOM v6 |
-| **HTTP Client** | Axios with interceptors |
+| **HTTP Client** | Axios with token refresh interceptor |
 | **Backend** | Node.js + Express.js |
 | **Database** | MongoDB + Mongoose |
 | **Authentication** | JWT (access + refresh tokens) |
 | **Password Hashing** | bcryptjs |
 | **Logging** | Winston + DailyRotateFile |
 | **Validation** | express-validator |
-| **Security** | Helmet, CORS, express-mongo-sanitize |
+| **Security** | Helmet, CORS, express-mongo-sanitize, express-rate-limit |
 | **External API** | TMDB (The Movie Database) |
 
 ---
@@ -115,227 +103,275 @@ cinestream/
 
 ### Prerequisites
 
-- Node.js 18+
-- MongoDB Atlas account (free tier works)
-- TMDB API key (free at [themoviedb.org](https://www.themoviedb.org/settings/api))
-- Git
+- **Node.js 18+** — [nodejs.org](https://nodejs.org)
+- **MongoDB Atlas account** — [cloud.mongodb.com](https://cloud.mongodb.com) (free)
+- **TMDB API key** — [themoviedb.org](https://www.themoviedb.org) (free)
+
+---
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/cinestream.git
+git clone https://github.com/anshika-prog/cinestream.git
 cd cinestream
 ```
 
-### 2. Configure the Backend
+---
+
+### 2. Configure the Server
 
 ```bash
 cd server
 cp .env.example .env
-npm install
 ```
 
-Edit `server/.env`:
+Open `server/.env` and fill in your values:
+
 ```env
 NODE_ENV=development
 PORT=5000
 CLIENT_URL=http://localhost:5173
-MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>.mongodb.net/cinestream
-JWT_SECRET=your-super-secret-jwt-key-at-least-32-chars
-JWT_REFRESH_SECRET=your-refresh-secret-also-at-least-32-chars
-TMDB_API_KEY=your-tmdb-api-key-here
-COOKIE_SECRET=your-cookie-secret
+
+MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/cinestream
+
+JWT_SECRET=your-random-secret-at-least-32-characters
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_SECRET=another-random-secret-at-least-32-chars
+JWT_REFRESH_EXPIRES_IN=30d
+
+TMDB_API_KEY=your_tmdb_api_key_here
+TMDB_BASE_URL=https://api.themoviedb.org/3
+TMDB_IMAGE_BASE_URL=https://image.tmdb.org/t/p
+
+COOKIE_SECRET=any-random-string-here
 ```
-
-### 3. Configure the Frontend
-
-```bash
-cd ../client
-cp .env.example .env.local
-npm install
-```
-
-Edit `client/.env.local`:
-```env
-VITE_API_BASE_URL=http://localhost:5000/api
-VITE_APP_NAME=CineStream
-```
-
-### 4. Run the Development Servers
-
-In two separate terminals:
-
-```bash
-# Terminal 1 - Backend
-cd server && npm run dev
-
-# Terminal 2 - Frontend
-cd client && npm run dev
-```
-
-Visit `http://localhost:5173` to view the application.
 
 ---
 
-## 📦 Deployment
-
-### Frontend → Vercel
+### 3. Install Dependencies
 
 ```bash
-cd client
-npm run build
-# Push to GitHub and connect repo to Vercel
-# Set environment variables in Vercel dashboard
+# Server
+cd server
+npm install
+
+# Client
+cd ../client
+npm install
 ```
 
-Add in Vercel dashboard:
-- `VITE_API_BASE_URL` → your Render backend URL
-- `VITE_APP_NAME` → CineStream
+---
 
-### Backend → Render
+### 4. Run the App
 
-1. Push the `server/` directory to a GitHub repo (or monorepo)
-2. Create a new **Web Service** on [render.com](https://render.com)
-3. Connect your GitHub repository
-4. Set Build Command: `npm install`
-5. Set Start Command: `node server.js`
-6. Add all environment variables from `.env.example`
+Open **two terminals**:
 
-### Database → MongoDB Atlas
+**Terminal 1 — Backend:**
+```bash
+cd server
+npm run dev
+```
 
-1. Create a free cluster at [mongodb.com/atlas](https://cloud.mongodb.com)
-2. Create a database user
-3. Whitelist `0.0.0.0/0` for Render IP (or use specific IPs)
-4. Copy the connection string to `MONGODB_URI`
+**Terminal 2 — Frontend:**
+```bash
+cd client
+npm run dev
+```
+
+Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+
+---
+
+## 📁 Project Structure
+
+```
+cinestream/
+│
+├── server/                          # Node.js + Express API
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── database.js          # MongoDB connection
+│   │   │   └── env.js               # Environment variable validation
+│   │   ├── controllers/             # Route handler functions
+│   │   │   ├── auth.controller.js
+│   │   │   ├── media.controller.js
+│   │   │   ├── profile.controller.js
+│   │   │   ├── search.controller.js
+│   │   │   └── user.controller.js
+│   │   ├── middleware/
+│   │   │   ├── auth.middleware.js   # JWT authentication guard
+│   │   │   ├── errorHandler.js      # Global error handler
+│   │   │   ├── rateLimiter.js       # Per-route rate limiting
+│   │   │   └── validate.middleware.js
+│   │   ├── models/
+│   │   │   └── User.model.js        # User + embedded profiles schema
+│   │   ├── routes/                  # Express route definitions
+│   │   ├── services/
+│   │   │   └── tmdb.service.js      # Full TMDB API integration + cache
+│   │   └── utils/
+│   │       ├── AppError.js          # Custom error class
+│   │       ├── jwt.js               # Token generation + verification
+│   │       └── logger.js            # Winston structured logging
+│   └── server.js                    # App bootstrap + graceful shutdown
+│
+├── client/                          # React + Vite frontend
+│   └── src/
+│       ├── api/                     # Axios service modules
+│       ├── components/
+│       │   ├── common/              # ErrorBoundary, ScrollToTop, BackToTop
+│       │   ├── layout/              # Navbar, Footer, MainLayout, AuthLayout
+│       │   ├── media/               # HeroBanner, MediaCard, ContentRow, etc.
+│       │   └── ui/                  # Design system primitives
+│       ├── contexts/                # AuthContext, ProfileContext
+│       ├── features/
+│       │   ├── auth/                # useAuthForm hook
+│       │   ├── browse/              # useBrowseFilters, BrowseSortSelect
+│       │   ├── player/              # usePlayerControls, PlayerControls
+│       │   ├── profile/             # useProfileActions hook
+│       │   └── search/              # useSearchHistory, SearchResultCard
+│       ├── hooks/                   # 11 custom hooks
+│       ├── pages/                   # 16 route-level pages
+│       ├── routes/                  # ProtectedRoute, PublicRoute
+│       ├── store/                   # Zustand UI store
+│       └── utils/                   # TMDB helpers, formatters, validators
+│
+├── docker-compose.yml               # Full local stack
+├── .github/workflows/               # CI/CD with GitHub Actions
+└── README.md
+```
 
 ---
 
 ## 🔌 API Reference
 
 ### Authentication
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/api/auth/register` | Public | Register new user |
-| POST | `/api/auth/login` | Public | Login and get tokens |
-| POST | `/api/auth/logout` | Private | Logout and clear refresh token |
-| POST | `/api/auth/refresh` | Cookie | Rotate access token |
-| GET | `/api/auth/me` | Private | Get current user |
-| PATCH | `/api/auth/change-password` | Private | Update password |
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/register` | Register new user |
+| `POST` | `/api/auth/login` | Login, returns access token |
+| `POST` | `/api/auth/logout` | Logout, clears refresh token |
+| `POST` | `/api/auth/refresh` | Rotate access token via cookie |
+| `GET` | `/api/auth/me` | Get current user |
+| `PATCH` | `/api/auth/change-password` | Update password |
 
 ### Media
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/media/home` | Aggregated home page data |
-| GET | `/api/media/trending` | Trending movies/TV |
-| GET | `/api/media/movies` | Movies by category/genre |
-| GET | `/api/media/movies/:id` | Movie details with videos, cast |
-| GET | `/api/media/tv` | TV shows by category |
-| GET | `/api/media/tv/:id` | TV details with seasons, cast |
-| GET | `/api/media/genres` | All genres |
-| GET | `/api/search?query=&type=` | Multi-type search |
+| `GET` | `/api/media/home` | Aggregated home page data |
+| `GET` | `/api/media/trending` | Trending movies/TV |
+| `GET` | `/api/media/movies` | Movies by category or genre |
+| `GET` | `/api/media/movies/:id` | Movie detail with cast, videos |
+| `GET` | `/api/media/tv` | TV shows by category or genre |
+| `GET` | `/api/media/tv/:id` | TV detail with seasons, cast |
+| `GET` | `/api/media/genres` | All genres (movies + TV) |
+| `GET` | `/api/search` | Multi-type search |
 
 ### Profiles
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/profiles` | Get all profiles |
-| POST | `/api/profiles` | Create profile |
-| PATCH | `/api/profiles/:id` | Update profile |
-| DELETE | `/api/profiles/:id` | Delete profile |
-| POST | `/api/profiles/:id/select` | Set active profile |
-| GET/POST/DELETE | `/api/profiles/:id/my-list` | Manage watchlist |
-| GET/POST/DELETE | `/api/profiles/:id/favorites` | Manage favorites |
-| GET/POST/DELETE | `/api/profiles/:id/history` | Manage watch history |
-| GET | `/api/profiles/:id/continue-watching` | Continue watching list |
+| `GET` | `/api/profiles` | Get all profiles |
+| `POST` | `/api/profiles` | Create a profile |
+| `PATCH` | `/api/profiles/:id` | Update a profile |
+| `DELETE` | `/api/profiles/:id` | Delete a profile |
+| `POST/GET/DELETE` | `/api/profiles/:id/my-list` | Manage watchlist |
+| `POST/GET/DELETE` | `/api/profiles/:id/favorites` | Manage favorites |
+| `POST/GET/DELETE` | `/api/profiles/:id/history` | Manage watch history |
+| `GET` | `/api/profiles/:id/continue-watching` | Continue watching list |
 
 ---
 
-## 🎨 Design System
+## 🚢 Deployment
 
-The design system is defined in `tailwind.config.js` and `globals.css`:
+### Frontend → Vercel
 
-- **Primary Color**: `#e50914` (brand red)
-- **Background**: `#141414` (surface-900)
-- **Typography**: Barlow Condensed (display) + DM Sans (body)
-- **Animations**: shimmer skeleton, slide-up, fade-in, scale-in
-- **Component Classes**: `.btn-brand`, `.btn-secondary`, `.input-field`, `.section-heading`, `.skeleton`
+1. Push the project to GitHub
+2. Go to [vercel.com](https://vercel.com) → Import your repository
+3. Set **Root Directory** to `client`
+4. Add environment variable:
+   - `VITE_API_BASE_URL` = your Render backend URL + `/api`
+5. Deploy
+
+### Backend → Render
+
+1. Go to [render.com](https://render.com) → New Web Service
+2. Connect your GitHub repository
+3. Set **Root Directory** to `server`
+4. **Build Command:** `npm install`
+5. **Start Command:** `node server.js`
+6. Add all environment variables from `server/.env`
+7. Deploy
+
+### Database → MongoDB Atlas
+
+Already set up! Make sure **Network Access** allows `0.0.0.0/0` for Render's dynamic IPs.
+
+---
+
+## 🐳 Docker (Optional)
+
+Run the entire stack locally with Docker:
+
+```bash
+cp server/.env.example server/.env
+# Fill in your values in server/.env
+
+docker-compose up --build
+```
+
+---
+
+## 📋 Available Scripts
+
+### Server
+```bash
+npm run dev      # Start with hot reload
+npm run start    # Production start
+npm run lint     # Run ESLint
+npm run format   # Prettier format
+```
+
+### Client
+```bash
+npm run dev      # Vite dev server
+npm run build    # Production build
+npm run preview  # Preview production build
+npm run lint     # ESLint check
+```
 
 ---
 
 ## 🔐 Security Model
 
-```
-Client ──Bearer Token──▶ API Routes
-                              │
-                    ┌─────────▼─────────┐
-                    │  authenticate()   │
-                    │  (JWT middleware)  │
-                    └─────────┬─────────┘
-                              │
-                    ┌─────────▼─────────┐
-                    │  Controller Logic │
-                    └───────────────────┘
-
-Refresh Flow:
-Client Cookie ──▶ POST /auth/refresh ──▶ Rotate Token ──▶ New Access Token
-```
-
-- Access tokens: 7 day expiry
-- Refresh tokens: 30 day expiry, stored in HttpOnly cookie
-- Token rotation on every refresh request
-- Concurrent request queuing during token refresh
-
----
-
-## 📁 Key Files Reference
-
-| File | Purpose |
-|------|---------|
-| `server/server.js` | Express app bootstrap |
-| `server/src/services/tmdb.service.js` | Full TMDB API integration with caching |
-| `server/src/models/User.model.js` | User + embedded Profile Mongoose schema |
-| `server/src/middleware/auth.middleware.js` | JWT authentication guard |
-| `client/src/api/apiClient.js` | Axios instance with refresh interceptor |
-| `client/src/contexts/AuthContext.jsx` | Global auth state management |
-| `client/src/contexts/ProfileContext.jsx` | Profile data, My List, Favorites |
-| `client/src/components/media/HeroBanner.jsx` | Rotating hero with autoplay |
-| `client/src/components/media/ContentRow.jsx` | Scrollable content carousel |
-
----
-
-## 🧑‍💻 Development
-
-### Available Scripts
-
-```bash
-# Server
-npm run dev        # Start with nodemon hot-reload
-npm run start      # Production start
-npm run lint       # Run ESLint
-npm run format     # Prettier format
-
-# Client
-npm run dev        # Vite dev server
-npm run build      # Production build
-npm run preview    # Preview production build
-npm run lint       # ESLint check
-```
-
-### Code Style
-- **Backend**: ES Modules (type: "module"), async/await, no callback patterns
-- **Frontend**: Functional components, custom hooks, no class components
-- **Naming**: camelCase for variables/functions, PascalCase for components/classes
-- **Imports**: Path aliases configured (`@components`, `@hooks`, `@api`, etc.)
+- Access tokens expire in **7 days**, refresh tokens in **30 days**
+- Refresh tokens stored in **HttpOnly cookies** — not accessible by JavaScript
+- Tokens **rotate** on every refresh — stolen tokens are automatically invalidated
+- Passwords hashed with **bcrypt** at 12 salt rounds
+- **Helmet** sets secure HTTP headers on every response
+- **Rate limiting** — 20 requests/15min on auth routes, 500/15min on general API
+- **MongoDB sanitization** prevents NoSQL injection attacks
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- Movie and TV data provided by [The Movie Database (TMDB)](https://www.themoviedb.org)
+- Inspired by Netflix's UI and UX patterns
 
 ---
 
 <div align="center">
-  Built with ❤️ as a portfolio-grade engineering project
-  <br />
-  Content data provided by <a href="https://www.themoviedb.org">The Movie Database (TMDB)</a>
+
+Made with ❤️ by [Anshika Mishra](https://github.com/anshika-prog)
+
+⭐ Star this repo if you found it helpful!
+
 </div>
