@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { validateEnv } from './src/config/env.js';
 
-// Validate environment variables before importing anything else
+// Validate environment variables before importing anything else.
 validateEnv();
 
 import express from 'express';
